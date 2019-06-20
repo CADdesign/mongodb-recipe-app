@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"
+            th:src="@{/webjars/popper.js/1.15.0/popper.min.js}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<main class="container" style="margin-top:20px;">
+    <div class="row">
+        <div class="col-3 mx-auto">
+            <a href="#" th:href="@{'/'}" class="btn btn-dark">Home</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 pt-2">
+            <div class="card">
+                <!--/*@thymesVar id="recipe" type="com.ryandunaway.recipeapp.model.Recipe"*/-->
+                <div class="card-header text-white bg-primary row mx-0">
+                    <h3 class="col-6" th:text="${recipe.description}">Recipe description here!</h3>
+                    <a href="#" class="offset-1 col-2 btn btn-outline-light" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Edit</a>
+                    <a href="#" class="offset-1 col-2 btn btn-outline-light" th:href="@{'/recipe/' + ${recipe.id} + '/image'}">Change Image</a>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <h5>Categories:</h5>
+                        </div>
+                        <div class="col-3">
+                            <ul class="list-group list-group-flush">
+                                <li th:remove="all" class="list-group-item" style="border-top:0; border-bottom: 0;">cat one</li>
+                                <li th:remove="all" class="list-group-item" style="border-top:0; border-bottom: 0;">cat 2</li>
+                                <li th:each="category : ${recipe.categories}" th:text="${category.getDescription()}" class="list-group-item" style="border-top:0; border-bottom: 0;">cat 3</li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <img alt="I'm the alt" src="../../static/images/guacamole400x400WithX.jpg"
+                                 th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
+                                 width="200" height="200">
+                        </div>
+                    </div> <!-- #row -->
+                    <div class="row">
+                        <div class="col-6 col-md-3">
+                            <h5>Prep time:</h5>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <p th:text="${(recipe.getPrepTime()) + ' min'}">30 min</p>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <h5>Difficulty:</h5>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <p th:text="${recipe.getDifficulty()}">Easy</p>
+                        </div>
+                    </div> <!-- #row -->
+                    <div class="row">
+                        <div class="col-6 col-md-3">
+                            <h5>Cooktime:</h5>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <p th:text="${(recipe.getCookTime()) + ' min'}">30 min</p>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <h5>Servings:</h5>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <p th:text="${recipe.getServings()}">4</p>
+                        </div>
+                    </div> <!-- #row -->
+                    <div class="row">
+                        <div class="col-6 col-md-3">
+                            <h5>Source:</h5>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <p th:text="${recipe.getSource()}">30 min</p>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <h5>URL:</h5>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <p th:text="${recipe.getUrl()}">http://www.example.com</p>
+                        </div>
+                    </div> <!-- #row -->
+
+                </div> <!-- #card-body -->
+
+            </div> <!-- #card-->
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-3">
+                <h3 class="card-header col-12 text-white bg-primary">Ingredients</h3>
+                <a href="#" class="btn btn-outline-info col-2" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}">Details</a>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="list-group list-group-flush">
+                                <li th:remove="all" class="list-group-item" style="border-top:0; border-bottom: 0;">cat one</li>
+                                <li th:remove="all" class="list-group-item" style="border-top:0; border-bottom: 0;">cat 2</li>
+                                <li th:each="ingredient : ${recipe.ingredients}"
+                                    th:text="${ingredient.getAmount() + ' '
+                                    + ingredient.getUom().getDescription() + ' - '
+                                    + ingredient.getDescription()
+                                    }"   class="list-group-item" style="border-top:0; border-bottom: 0;">
+                                    cat 3</li>
+                            </ul>
+                        </div>
+                    </div> <!-- #row -->
+                </div> <!-- #card-body -->
+            </div> <!-- #card-->
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-3">
+                <h3 class="card-header text-white bg-primary">Recipe Directions</h3>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                           <p th:text="${recipe.getDirections()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                               Aspernatur, doloremque explicabo fuga fugiat, harum hic incidunt iusto neque optio quos
+                               sapiente suscipit tenetur totam? Amet asperiores atque doloribus iste minus nihil obcaecati
+                               pariatur? Accusamus adipisci aliquid architecto aspernatur atque aut consequatur dolor doloribus, dolorum ducimus error fugit harum illo inventore iure iusto minus natus nesciunt numquam quaerat quasi quidem quis reiciendis repellendus totam veritatis voluptas, voluptatibus? Consectetur, eius, nisi? Amet animi at atque beatae consequatur corporis debitis doloremque ducimus eos excepturi exercitationem harum minima nesciunt numquam officia omnis pariatur quam quas quasi qui quia quis, reprehenderit sed soluta unde veritatis!</p>
+                        </div>
+                    </div> <!-- #row -->
+                </div> <!-- #card-body -->
+            </div> <!-- #card-->
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-3">
+                <h3 class="card-header text-white bg-primary">Notes</h3>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <p th:text="${recipe.getNotes().getRecipeNotes()}">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Aspernatur, doloremque explicabo fuga fugiat, harum hic incidunt iusto neque optio quos
+                                sapiente suscipit tenetur totam? Amet asperiores atque doloribus iste minus nihil obcaecati
+                                pariatur? Accusamus adipisci aliquid architecto aspernatur atque aut consequatur dolor doloribus, dolorum ducimus error fugit harum illo inventore iure iusto minus natus nesciunt numquam quaerat quasi quidem quis reiciendis repellendus totam veritatis voluptas, voluptatibus? Consectetur, eius, nisi? Amet animi at atque beatae consequatur corporis debitis doloremque ducimus eos excepturi exercitationem harum minima nesciunt numquam officia omnis pariatur quam quas quasi qui quia quis, reprehenderit sed soluta unde veritatis!</p>
+                        </div>
+                    </div> <!-- #row -->
+                </div> <!-- #card-body -->
+            </div> <!-- #card-->
+        </div>
+
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingredient Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"
+            th:src="@{/webjars/popper.js/1.15.0/popper.min.js}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+    <main>
+        <!--/*@thymesVar id="ingredient" type="com.ryandunaway.recipeapp.formobjects.IngredientCommand"*/-->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    <a href="#" th:href="@{'/'}" class="btn btn-dark">Home</a>
+                </div>
+            </div>
+            <form th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="card ingredient-card">
+                    <div class="card-body">
+                        <div class="card-title bg-light">
+                            <h2>Edit Ingredient Information</h2>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="descriptionInput">Description: </label>
+                                <input type="text" class="form-control" id="descriptionInput" th:field="*{description}"/>
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="qty">Amount: </label>
+                                <input type="number" class="form-control" id="qty" th:field="*{amount}">
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="unitOfMeasure.id">Unit of Measurement: </label>
+                                <select class="form-control" id="unitOfMeasure.id" th:field="*{uom.id}">
+                                    <option th:each="uomEach : ${uomList}"
+                                            th:value="${uomEach.id}"
+                                            th:selected="${uomEach.id.equals(ingredient.uom.id)}"
+                                            th:text="${uomEach.description}">Each</option>
+                                </select>
+                            </div>
+                        </div> <!-- end of .form-row -->
+                    </div> <!-- end of .card-body -->
+                </div> <!-- .ingredient-card .card -->
+                <button type="submit" class="btn btn-primary mt-3 col-1">Submit</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>
