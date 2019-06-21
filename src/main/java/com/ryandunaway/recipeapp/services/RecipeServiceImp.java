@@ -39,7 +39,7 @@ public class RecipeServiceImp implements RecipeService {
     @Override
     public Recipe findById(long passedId) {
 
-        Optional<Recipe> recipeOptional = recipeRepo.findById(passedId);
+        Optional<Recipe> recipeOptional = recipeRepo.findById(String.valueOf(passedId));
         if (!recipeOptional.isPresent()) {
             throw new NotFoundException("Recipe Not Found for the ID of: " + passedId);
         }
@@ -78,6 +78,6 @@ public class RecipeServiceImp implements RecipeService {
     @Override
     @Transactional
     public void deleteById(long anyLong) {
-        recipeRepo.deleteById(anyLong);
+        recipeRepo.deleteById(String.valueOf(anyLong));
     }
 }
